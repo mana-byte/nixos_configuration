@@ -71,6 +71,8 @@
   environment.systemPackages = with pkgs; [
   # home manager
     home-manager
+
+  # basic editor
     vim
 
   # hyprland apps
@@ -111,9 +113,6 @@
       STOP_CHARGE_THRESH_BAT1 = 80; # 80 and above it stops charging
     };
   };
-  programs.hyprland = {
-	enable = true;
- };
 
   environment.sessionVariables = {
   	WLR_NO_HARDWARE_CURSOR = "1";
@@ -122,9 +121,8 @@
 	# this needs to be changed if not the right card
 	AQ_DRM_DEVICES="/dev/dri/card1";
   };
-  hardware.graphics = {
-  	enable =true;
-  };
+  hardware.graphics.enable = true;
+  programs.hyprland.enable = true;
 
 
   boot.initrd.kernelModules = [ "amdgpu" ];
