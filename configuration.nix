@@ -81,6 +81,10 @@
     hyprpaper
     rofi-wayland
     networkmanagerapplet
+    pipewire
+    xdg-desktop-portal
+    hyprpolkitagent
+    hyprshot
 
   # packages managers and langage
     cargo
@@ -94,6 +98,10 @@
   # desktop
     firefox
 
+  ];
+
+  fonts.packages = with pkgs; [
+    font-awesome
   ];
 
   services.tlp = {
@@ -110,6 +118,9 @@
   environment.sessionVariables = {
   	WLR_NO_HARDWARE_CURSOR = "1";
 	NIXOS_OZONE_WL = "1";
+
+	# this needs to be changed if not the right card
+	AQ_DRM_DEVICES="/dev/dri/card1";
   };
 
   hardware.graphics = {
