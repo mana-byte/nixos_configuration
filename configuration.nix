@@ -69,27 +69,25 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  # editor
+  # home manager
+    home-manager
     vim
-    neovim
-    git
-    kitty
 
   # hyprland apps
-    waybar
     dunst
-    hyprpaper
     rofi-wayland
     networkmanagerapplet
     pipewire
+    waybar
+    kitty
     xdg-desktop-portal
+
+    # hyprland ecosystem
+    hyprpaper
     hyprpolkitagent
     hyprshot
-
-  # packages managers and langage
-    cargo
-    nodejs_23
-    python314
+    hyprlock
+    hypridle
 
   #power management
     tlp
@@ -97,6 +95,8 @@
 
   # desktop
     firefox
+    nautilus
+    clipman
 
   ];
 
@@ -122,7 +122,6 @@
 	# this needs to be changed if not the right card
 	AQ_DRM_DEVICES="/dev/dri/card1";
   };
-
   hardware.graphics = {
   	enable =true;
   };
