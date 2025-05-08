@@ -90,6 +90,7 @@
     hyprshot
     hyprlock
     hypridle
+    hyprcursor
 
   #power management
     tlp
@@ -97,13 +98,17 @@
 
   # desktop
     firefox
+    pywalfox-native
+    pywal
     nautilus
     clipman
 
   ];
 
+  fonts.fontconfig.enable = true;
   fonts.packages = with pkgs; [
     font-awesome
+    (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
   ];
 
   services.tlp = {
@@ -126,6 +131,7 @@
 
 
   boot.initrd.kernelModules = [ "amdgpu" ];
+  hardware.nvidia.modesetting.enable = true;
 	#  services.xserver.videoDrivers = [ "nvidia" ];
 	#  hardware.nvidia = {
 	#  	modesetting.enable = true;
