@@ -97,11 +97,15 @@
     lm_sensors
 
   # desktop
+    gparted
     firefox
     pywalfox-native
     pywal
     nautilus
     clipman
+
+  # disk management
+    gparted
 
   ];
 
@@ -127,25 +131,13 @@
 	AQ_DRM_DEVICES="/dev/dri/card1";
   };
   hardware.graphics.enable = true;
+  hardware.enableAllFirmware = true;
   programs.hyprland.enable = true;
 
 
+  services.xserver.videoDrivers = [ "amdgpu" ];
   boot.initrd.kernelModules = [ "amdgpu" ];
   hardware.nvidia.modesetting.enable = true;
-	#  services.xserver.videoDrivers = [ "nvidia" ];
-	#  hardware.nvidia = {
-	#  	modesetting.enable = true;
-	# open = true;
-	#  	prime = {
-	#   offload = {
-	#     enable = true;
-	#     enableOffloadCmd = true;
-	#   };
-	#   amdgpuBusId = "PCI:65:0:0";
-	#   nvidiaBusId = "PCI:64:0:0";
-	# };
-	# nvidiaSettings = true;
-	#   };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
