@@ -126,10 +126,6 @@
   environment.sessionVariables = {
   	WLR_NO_HARDWARE_CURSOR = "1";
 	NIXOS_OZONE_WL = "1";
-
-	# this needs to be changed if not the right card
-	AQ_DRM_DEVICES="/dev/dri/card1";
-	WLR_DRM_DEVICES="/dev/dri/card1";  # (replace with the card for your iGPU)
   };
   
 
