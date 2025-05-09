@@ -15,7 +15,7 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_6_12;
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -129,6 +129,7 @@
 
 	# this needs to be changed if not the right card
 	AQ_DRM_DEVICES="/dev/dri/card1";
+	WLR_DRM_DEVICES="/dev/dri/card1";  # (replace with the card for your iGPU)
   };
   
 
@@ -145,29 +146,29 @@ hardware.graphics = {
 # evaluation warning: The option `hardware.opengl.enable' defined in `/etc/nixos/configuration.nix' has been renamed to `hardware.graphics.enable'.
 
 # Basic display setup
-services.xserver.videoDrivers = [ "amdgpu" ]; # add nvidia
+services.xserver.videoDrivers = [ "amdgpu" "nvidia"]; # add nvidia
 boot.initrd.kernelModules = [ "amdgpu" ];
 
 # # Add a safe boot parameter to avoid hanging on boot
-# boot.kernelParams = [ "nvidia.NVreg_PreserveVideoMemoryAllocations=0" ];
-# # Configure NVIDIA with safe options
-# hardware.nvidia = {
-#   modesetting.enable = true;
-#   package = config.boot.kernelPackages.nvidiaPackages.stable;
-#   open = false;
-#   prime = {
-#     offload = {
-#       enable = true;
-#       enableOffloadCmd = true;
-#     };
-#     amdgpuBusId = "PCI:65:0:0";
-#     nvidiaBusId = "PCI:64:0:0";
-#   };
-#   nvidiaSettings = true;
-#   powerManagement.enable = true;
-#   powerManagement.finegrained = false;
-# };
-#
+
+# Configure NVIDIA with safe options
+hardware.nvidia = {
+  modesetting.enable = true;
+  package = config.boot.kernelPackages.nvidiaPackages.stable;
+  open = false;
+  prime = {
+    offload = {
+      enable = true;
+      enableOffloadCmd = true;
+    };
+    amdgpuBusId = "PCI:65:0:0";
+    nvidiaBusId = "PCI:64:0:0";
+  };
+  nvidiaSettings = true;
+  powerManagement.enable = true;
+  powerManagement.finegrained = true;
+};
+
 # boot.loader.systemd-boot.extraEntries = {
 #   "nixos-fallback.conf" = ''
 #     title NixOS - Fallback (No NVIDIA)
