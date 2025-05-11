@@ -1,16 +1,17 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, ... }:
-
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  config,
+  pkgs,
+  ...
+}: {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes"];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -54,12 +55,11 @@
   # Configure console keymap
   console.keyMap = "fr";
 
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.mana = {
     isNormalUser = true;
     description = "Mana";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = ["networkmanager" "wheel"];
     packages = with pkgs; [];
   };
 
@@ -69,13 +69,13 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  # home manager
+    # home manager
     home-manager
 
-  # basic editor
+    # basic editor
     vim
 
-  # hyprland apps
+    # hyprland apps
     dunst
     rofi-wayland
     networkmanagerapplet
@@ -92,11 +92,11 @@
     hypridle
     hyprcursor
 
-  #power management
+    #power management
     tlp
     lm_sensors
 
-  # desktop
+    # desktop
     gparted
     firefox
     pywalfox-native
@@ -104,15 +104,14 @@
     nautilus
     clipman
 
-  # disk management
+    # disk management
     gparted
-
   ];
 
   fonts.fontconfig.enable = true;
   fonts.packages = with pkgs; [
     font-awesome
-    (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+    (nerdfonts.override {fonts = ["JetBrainsMono"];})
   ];
 
   services.tlp = {
@@ -124,39 +123,39 @@
   };
 
   environment.sessionVariables = {
-  	WLR_NO_HARDWARE_CURSOR = "1";
-	NIXOS_OZONE_WL = "1";
+    WLR_NO_HARDWARE_CURSOR = "1";
+    NIXOS_OZONE_WL = "1";
   };
 
-hardware.enableAllFirmware = true;
-programs.hyprland.enable = true;
-# Configure OpenGL properly
-hardware.graphics = {
-  enable = true;
-  enable32Bit = true;
-};
+  hardware.enableAllFirmware = true;
+  programs.hyprland.enable = true;
+  # Configure OpenGL properly
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
 
-# Basic display setup
-services.xserver.videoDrivers = [ "amdgpu" "nvidia"]; # add nvidia
-boot.initrd.kernelModules = [ "amdgpu" ];
+  # Basic display setup
+  services.xserver.videoDrivers = ["amdgpu" "nvidia"]; # add nvidia
+  boot.initrd.kernelModules = ["amdgpu"];
 
-# Configure NVIDIA with safe options
-hardware.nvidia = {
-  modesetting.enable = true;
-  package = config.boot.kernelPackages.nvidiaPackages.stable;
-  open = false;
-  prime = {
-    offload = {
-      enable = true;
-      enableOffloadCmd = true;
+  # Configure NVIDIA with safe options
+  hardware.nvidia = {
+    modesetting.enable = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    open = false;
+    prime = {
+      offload = {
+        enable = true;
+        enableOffloadCmd = true;
+      };
+      amdgpuBusId = "PCI:65:0:0";
+      nvidiaBusId = "PCI:64:0:0";
     };
-    amdgpuBusId = "PCI:65:0:0";
-    nvidiaBusId = "PCI:64:0:0";
+    nvidiaSettings = true;
+    powerManagement.enable = true;
+    powerManagement.finegrained = true;
   };
-  nvidiaSettings = true;
-  powerManagement.enable = true;
-  powerManagement.finegrained = true;
-};
 
   nix.gc = {
     automatic = true;
@@ -190,5 +189,4 @@ hardware.nvidia = {
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
-
 }
