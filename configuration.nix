@@ -127,25 +127,18 @@
   	WLR_NO_HARDWARE_CURSOR = "1";
 	NIXOS_OZONE_WL = "1";
   };
-  
 
-
-  # hardware.graphics.enable = true;
-  hardware.enableAllFirmware = true;
-  programs.hyprland.enable = true;
+hardware.enableAllFirmware = true;
+programs.hyprland.enable = true;
 # Configure OpenGL properly
 hardware.graphics = {
   enable = true;
   enable32Bit = true;
 };
-# evaluation warning: The option `hardware.opengl.driSupport32Bit' defined in `/etc/nixos/configuration.nix' has been renamed to `hardware.graphics.enable32Bit'.
-# evaluation warning: The option `hardware.opengl.enable' defined in `/etc/nixos/configuration.nix' has been renamed to `hardware.graphics.enable'.
 
 # Basic display setup
 services.xserver.videoDrivers = [ "amdgpu" "nvidia"]; # add nvidia
 boot.initrd.kernelModules = [ "amdgpu" ];
-
-# # Add a safe boot parameter to avoid hanging on boot
 
 # Configure NVIDIA with safe options
 hardware.nvidia = {
@@ -165,17 +158,11 @@ hardware.nvidia = {
   powerManagement.finegrained = true;
 };
 
-# boot.loader.systemd-boot.extraEntries = {
-#   "nixos-fallback.conf" = ''
-#     title NixOS - Fallback (No NVIDIA)
-#     version 1
-#     linux /nixos/kernels/$(ls /boot/nixos-system-*/kernel | head -n1 | xargs basename)
-#     initrd /nixos/initrd
-#     options init=/nix/store/*/init systemConfig=/nix/store/*/configuration-system nomodeset rd.driver.blacklist=nvidia,nouveau
-#   '';
-# };
-
-
+  nix.gc = {
+    automatic = true;
+    dates = "monthly"; # runs on the 1st of every month by default
+    options = "--delete-older-than 30d";
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
