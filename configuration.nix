@@ -79,7 +79,6 @@
     dunst
     rofi-wayland
     networkmanagerapplet
-    pipewire
     waybar
     kitty
     xdg-desktop-portal
@@ -95,9 +94,9 @@
     #power management
     tlp
     lm_sensors
+    brightnessctl
 
     # desktop
-    gparted
     firefox
     pywalfox-native
     pywal
@@ -107,6 +106,17 @@
     # disk management
     gparted
   ];
+
+    # rtkit is optional but recommended
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true; # if not already enabled
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+  };
 
   fonts.fontconfig.enable = true;
   fonts.packages = with pkgs; [
@@ -156,6 +166,11 @@
     powerManagement.enable = true;
     powerManagement.finegrained = true;
   };
+
+    services.tailscale = {
+      enable = true;
+      useRoutingFeatures = "both"; # Enables subnet routing and exit nodes if needed
+    };
 
   nix.gc = {
     automatic = true;
