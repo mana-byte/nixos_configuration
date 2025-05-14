@@ -9,6 +9,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./cachix.nix
   ];
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
@@ -71,6 +72,8 @@
   environment.systemPackages = with pkgs; [
     # home manager
     home-manager
+    # cachix to avoid compiling everything
+    cachix
 
     # basic editor
     vim
