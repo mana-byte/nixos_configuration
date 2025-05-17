@@ -19,6 +19,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_6_12;
 
+  boot.kernelParams = [ "supergfxd.mode=Integrated" ];
+
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -74,6 +76,8 @@
     home-manager
     # cachix to avoid compiling everything
     cachix
+    # for gpu switching
+    lsof
 
     # basic editor
     vim
@@ -110,7 +114,14 @@
     gparted
   ];
 
-    # rtkit is optional but recommended
+  # sddm display manager
+  services.xserver.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
+
+
+  # pipewire for sound
+  # rtkit is optional but recommended
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true; # if not already enabled
@@ -118,7 +129,7 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
+    jack.enable = true;
   };
 
   fonts.fontconfig.enable = true;
@@ -127,13 +138,22 @@
     (nerdfonts.override {fonts = ["JetBrainsMono"];})
   ];
 
+  # tlp for battery management
   services.tlp = {
     enable = true;
     settings = {
-      START_CHARGE_THRESH_BAT1 = 70; # 40 and below it starts to charge
+      # AC settings
+      CPU_SCALING_GOVERNOR_ON_AC = "performance";
+      # Battery settings
+      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+      START_CHARGE_THRESH_BAT1 = 40; # 40 and below it starts to charge
       STOP_CHARGE_THRESH_BAT1 = 80; # 80 and above it stops charging
     };
   };
+
+  # for deactivating the gpu when not needed 
+  # There is an option at the top in kernel params to set initial mode of gpu
+  services.supergfxd.enable = true;
 
   environment.sessionVariables = {
     WLR_NO_HARDWARE_CURSOR = "1";
@@ -142,6 +162,7 @@
 
   hardware.enableAllFirmware = true;
   programs.hyprland.enable = true;
+  programs.hyprland.withUWSM  = true;
   # Configure OpenGL properly
   hardware.graphics = {
     enable = true;
