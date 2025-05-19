@@ -19,7 +19,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_6_12;
 
-  boot.kernelParams = [ "supergfxd.mode=Integrated" ];
+  # boot.kernelParams = [ "supergfxd.mode=Integrated" ];
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -114,10 +114,9 @@
     gparted
   ];
 
-  # sddm display manager
-  services.xserver.enable = true;
-  services.displayManager.sddm.enable = true;
-  services.displayManager.sddm.wayland.enable = true;
+  # gdm display manager
+  # services.xserver.enable = true;
+  # services.xserver.displayManager.gdm.enable = true;
 
 
   # pipewire for sound
@@ -153,7 +152,7 @@
 
   # for deactivating the gpu when not needed 
   # There is an option at the top in kernel params to set initial mode of gpu
-  services.supergfxd.enable = true;
+  # services.supergfxd.enable = true;
 
   environment.sessionVariables = {
     WLR_NO_HARDWARE_CURSOR = "1";
