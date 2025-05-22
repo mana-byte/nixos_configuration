@@ -117,13 +117,10 @@
     hyprcursor
 
     #power management
-    tlp
     lm_sensors
     brightnessctl
 
     # desktop
-    firefox
-    pywalfox-native
     pywal
     nautilus
     clipman
@@ -156,18 +153,31 @@
   ];
 
   # tlp for battery management
-  services.tlp = {
+  # services.tlp = {
+  #   enable = true;
+  #   settings = {
+  #     # AC settings
+  #     CPU_SCALING_GOVERNOR_ON_AC = "performance";
+  #     # Battery settings
+  #     CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+  #   };
+  # };
+
+  # ASUSD Configuration - Enhanced
+  services.asusd = {
     enable = true;
-    settings = {
-      # AC settings
-      CPU_SCALING_GOVERNOR_ON_AC = "performance";
-      # Battery settings
-      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-      START_CHARGE_THRESH_BAT1 = 40; # 40 and below it starts to charge
-      STOP_CHARGE_THRESH_BAT1 = 80; # 80 and above it stops charging
-    };
+    enableUserService = true;
+    package = pkgs.asusctl;
   };
 
+  # Make sure asusd starts after basic system services
+  systemd.services.asusd = {
+    after = [ "multi-user.target" ];
+    wantedBy = [ "multi-user.target" ];
+  };
+
+  # Ensure the service is properly enabled
+  systemd.services.asusd.enable = true;
   # for deactivating the gpu when not needed 
   # There is an option at the top in kernel params to set initial mode of gpu
   services.supergfxd.enable = false;
@@ -186,6 +196,9 @@
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
+    # extraPackages = with pkgs; [
+    # 	amdvlk
+    # ];
   };
 
   # Basic display setup
