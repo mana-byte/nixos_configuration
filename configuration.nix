@@ -14,13 +14,30 @@
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
+  # BLACKLIST NVIDIA TO POWEROFF GPU
+  boot.blacklistedKernelModules = [
+    "nvidia"
+    "nvidia_drm"
+    "nvidia_modeset"
+    "nvidia_uvm"
+    "nouveau"
+  ];
+
+  boot.extraModulePackages = with config.boot.kernelPackages; [ acpi_call ];
+  # BLACKLIST NVIDIA TO POWEROFF GPU
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_6_12;
 
-  # boot.kernelParams = [ "supergfxd.mode=Integrated" ];
-
+  boot.kernelParams = [ 
+    "amd_pstate=active"      # Better power management
+    "amdgpu.sg_display=0"    # Address graphics stability
+    "amdgpu.runpm=0"         # Disable run-time power management
+    "acpi_osi=Linux"         # ACPI compatibility
+    "acpi_enforce_resources=lax"
+  ];
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -72,6 +89,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    linux-firmware
     # home manager
     home-manager
     # cachix to avoid compiling everything
@@ -152,13 +170,15 @@
 
   # for deactivating the gpu when not needed 
   # There is an option at the top in kernel params to set initial mode of gpu
-  # services.supergfxd.enable = true;
+  services.supergfxd.enable = false;
 
   environment.sessionVariables = {
     WLR_NO_HARDWARE_CURSOR = "1";
     NIXOS_OZONE_WL = "1";
   };
 
+
+  hardware.enableRedistributableFirmware = true;
   hardware.enableAllFirmware = true;
   programs.hyprland.enable = true;
   programs.hyprland.withUWSM  = true;
