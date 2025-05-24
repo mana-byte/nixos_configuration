@@ -22,8 +22,8 @@
     "nvidia_uvm"
     "nouveau"
     # These are a bug fix for linux kernel 6.12.29 that keeps making my computer freeze // Remove when 6.12.30
-    "typec_ucsi"
-    "ucsi_acpi"
+    # "typec_ucsi"
+    # "ucsi_acpi"
   ];
 
 
@@ -155,19 +155,18 @@
   fonts.fontconfig.enable = true;
   fonts.packages = with pkgs; [
     font-awesome
-    (nerdfonts.override {fonts = ["JetBrainsMono"];})
+    nerd-fonts.jetbrains-mono
   ];
-
   # tlp for battery management
-  # services.tlp = {
-  #   enable = true;
-  #   settings = {
-  #     # AC settings
-  #     CPU_SCALING_GOVERNOR_ON_AC = "performance";
-  #     # Battery settings
-  #     CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-  #   };
-  # };
+  services.tlp = {
+    enable = true;
+    settings = {
+      # AC settings
+      CPU_SCALING_GOVERNOR_ON_AC = "performance";
+      # Battery settings
+      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+    };
+  };
 
   # ASUSD Configuration - Enhanced
   services.asusd = {
