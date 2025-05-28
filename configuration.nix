@@ -22,8 +22,8 @@
     "nvidia_uvm"
     "nouveau"
     # These are a bug fix for linux kernel 6.12.29 that keeps making my computer freeze // Remove when 6.12.30
-    # "typec_ucsi"
-    # "ucsi_acpi"
+    "typec_ucsi"
+    "ucsi_acpi"
   ];
 
 
@@ -106,8 +106,14 @@
     # basic editor
     vim
 
+    # usb automount
+    udiskie
+    usbutils
+    udisks
+
     # hyprland apps
     dunst
+    libnotify
     rofi-wayland
     networkmanagerapplet
     waybar
@@ -115,7 +121,6 @@
     xdg-desktop-portal
 
     # hyprland ecosystem
-    hyprpaper
     hyprpolkitagent
     hyprshot
     hyprlock
@@ -138,6 +143,12 @@
   # gdm display manager
   # services.xserver.enable = true;
   # services.xserver.displayManager.gdm.enable = true;
+
+  # usb auto mounting
+  services.gvfs.enable = true;
+  services.udisks2.enable = true;
+  services.dbus.enable = true;
+  security.polkit.enable = true;
 
 
   # pipewire for sound
@@ -195,6 +206,7 @@
 
   hardware.enableRedistributableFirmware = true;
   hardware.enableAllFirmware = true;
+
   programs.hyprland.enable = true;
   programs.hyprland.withUWSM  = true;
   # Configure OpenGL properly
