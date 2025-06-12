@@ -22,8 +22,8 @@
     "nvidia_uvm"
     "nouveau"
     # These are a bug fix for linux kernel 6.12.29 that keeps making my computer freeze // Remove when 6.12.30
-    "typec_ucsi"
-    "ucsi_acpi"
+    # "typec_ucsi"
+    # "ucsi_acpi"
   ];
 
 
@@ -150,6 +150,11 @@
   services.dbus.enable = true;
   security.polkit.enable = true;
 
+  # bluetooth
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+  services.blueman.enable = true;
+
 
   # pipewire for sound
   # rtkit is optional but recommended
@@ -241,10 +246,10 @@
   };
 
   # DISABLE AND ENABLE TAILSCALE
-    # services.tailscale = {
-    #   enable = true;
-    #   useRoutingFeatures = "both"; # Enables subnet routing and exit nodes if needed
-    # };
+    services.tailscale = {
+      enable = true;
+      useRoutingFeatures = "both"; # Enables subnet routing and exit nodes if needed
+    };
 
   nix.gc = {
     automatic = true;
