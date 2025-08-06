@@ -95,46 +95,41 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+
+    # linux firmware
     linux-firmware
     # home manager
     home-manager
     # cachix to avoid compiling everything
     cachix
-    # for gpu switching
+    # list of open files
     lsof
-
     # basic editor
     vim
-
-    # usb automount
+    # d bus service
+    xdg-desktop-portal
+    # usb automount not movable to home manager
     udiskie
     usbutils
     udisks
-
-    # hyprland apps
-    dunst
-    libnotify
-    rofi-wayland
-    networkmanagerapplet
-    waybar
-    kitty
-    xdg-desktop-portal
-
-    # hyprland ecosystem
-    hyprpolkitagent
-    hyprshot
-    hyprlock
-    hypridle
-    hyprcursor
 
     #power management
     lm_sensors
     brightnessctl
 
-    # desktop
-    pywal
-    nautilus
-    clipman
+    ## APPS essential for system functionalities at base
+
+    # terminal emulator
+    kitty
+
+    # hyprland ecosystem config in home manager
+    hyprpolkitagent
+    hyprshot
+    hyprlock
+    hypridle
+    hyprcursor
+    hyprsunset
+    waybar
 
     # disk management
     gparted
@@ -187,7 +182,7 @@
   # ASUSD Configuration - Enhanced
   services.asusd = {
     enable = true;
-    enableUserService = true;
+    enableUserService = false;
     package = pkgs.asusctl;
   };
 
