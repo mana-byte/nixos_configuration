@@ -55,7 +55,8 @@
   networking.networkmanager.enable = true;
 
   # Set your time zone.
-  time.timeZone = "Pacific/Auckland";
+  time.timeZone = "Europe/Paris";
+  # services.automatic-timezoned.enable = true;
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_NZ.UTF-8";
@@ -77,6 +78,13 @@
     layout = "fr";
     variant = "azerty";
   };
+
+  services.logind = {
+     lidSwitch = "lock";
+     lidSwitchDocked = "ignore";
+     extraConfig = "IdleAction=ignore";
+  };
+
 
   # Configure console keymap
   console.keyMap = "fr";
@@ -149,6 +157,11 @@
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
   services.blueman.enable = true;
+
+  programs.kdeconnect = {
+     enable = true;
+     package = pkgs.kdePackages.kdeconnect-kde;
+  };
 
 
   # pipewire for sound
@@ -245,6 +258,12 @@
       enable = true;
       useRoutingFeatures = "both"; # Enables subnet routing and exit nodes if needed
     };
+  # KDE CONNECT PERMISSIONS
+  services.avahi = {
+     enable = true;
+     nssmdns = true;
+     openFirewall = true;
+  };
 
   nix.gc = {
     automatic = true;
