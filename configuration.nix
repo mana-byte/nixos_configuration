@@ -266,11 +266,11 @@
      openFirewall = true;
   };
 
-  nix.gc = {
-    automatic = true;
-    dates = "monthly"; # runs on the 1st of every month by default
-    options = "--delete-older-than 30d";
-  };
+  # nix.gc = {
+  #   automatic = true;
+  #   dates = "monthly"; # runs on the 1st of every month by default
+  #   options = "--delete-older-than 30d";
+  # };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -279,7 +279,6 @@
     enable = true;
     enableSSHSupport = true;
   };
-
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
