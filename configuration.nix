@@ -80,11 +80,18 @@
     variant = "azerty";
   };
 
+ # unstable 
   services.logind.settings.Login = {
      HandleLidSwitchDocked = "ignore";
      HandleLidSwitch = "lock";
      # settings.Login = "IdleAction=ignore";
   };
+
+	#  services.logind = {
+	#  	lidSwitchDocked = "ignore";
+	# lidSwitch = "lock";
+	# extraConfig = "IdleAction=ignore";
+	#  };
 
 
   # Configure console keymap
@@ -151,7 +158,7 @@
 services.displayManager.ly = {
     enable = true;
     package = pkgs.ly; # TUI -- zig -- https://codeberg.org/AnErrupTion/ly
-    x11Support = true;
+    # x11Support = true;
     settings = {
       # allow_empty_password = false; # dangerous?
       animation = "colormix"; # "doom", "matrix", "colormix"
@@ -218,6 +225,7 @@ services.displayManager.ly = {
     # If you want to use JACK applications, uncomment this
     jack.enable = true;
   };
+  hardware.pulseaudio.enable = false;
 
   fonts.fontconfig.enable = true;
   fonts.packages = with pkgs; [
