@@ -5,7 +5,58 @@
   ...
 }: {
   vim.package = pkgs.neovim-unwrapped;
+
+  vim.keymaps = [
+    {
+      key = "<leader>u";
+      mode = ["n"];
+      action = ":UndotreeToggle<CR>";
+      silent = true;
+      desc = "Toggle undotree";
+    }
+    {
+      key = "<c-l>";
+      mode = ["n"];
+      action = ":vsplit<CR>";
+      silent = true;
+      desc = "VSPLIT";
+    }
+    {
+      key = "<c-h>";
+      mode = ["n"];
+      action = ":split<CR>";
+      silent = true;
+      desc = "SPLIT";
+    }
+    {
+      key = "<leader>nd";
+      mode = ["n"];
+      action = ":NoiceDismiss<CR>";
+      silent = true;
+      desc = "remove all notifications";
+    }
+    {
+      key = "<space>ff";
+      mode = ["n"];
+      action = ":lua require('conform').format({ async = true, lsp_fallback = true })<CR>";
+      silent = true;
+      desc = "format buffer";
+    }
+    {
+      key = "-";
+      mode = ["n"];
+      action = ":Oil<CR>";
+      silent = true;
+      desc = "format buffer";
+    }
+
+  ];
+
   vim = {
+
+    git.enable = true;
+    lsp.enable = true;
+
     globals = {
       mapleader = ",";
     };
@@ -49,19 +100,40 @@
       surround.enable = true;
     };
     binds.whichKey.enable = true;
-    git.enable = true;
+    notes.todo-comments.enable = true;
 
-    ui = {
-      noice.enable = true;
+    ui.noice =  {
+      enable = true;
+      setupOpts.presets = {
+          bottom_search = false;
+          command_palette = true;
+        };
     };
+    
     visuals = {
       nvim-web-devicons.enable = true;
     };
     formatter = {
-      conform-nvim.enable = true;
+      conform-nvim = {
+        enable = true;
+        setupOpts.formatters_by_ft = {
+          lua = ["stylua"];
+          python = [ "black" ];
+          nix = [ "alejandra" ];
+          javascript = [ "biome" ];
+          typescript = [ "biome" ];
+          javascriptreact = [ "biome" "eslint" ];
+          typescriptreact = [ "biome" "eslint" ];
+        };
+      };
+    };
+    dashboard.alpha = {
+      enable = true;
+      theme = "theta";
     };
 
-    # Autocompletion
+
+    #NOTE: Autocompletion and LSPs
     autocomplete = {
       blink-cmp.enable = true;
     };
@@ -77,7 +149,6 @@
     };
 
     languages = {
-      enableLSP = true;
       enableTreesitter = true;
 
       nix.enable = true;
@@ -86,4 +157,6 @@
       ts.enable = true;
     };
   };
+
+  # NOTE: Plugins that are not in nvf repo
 }
