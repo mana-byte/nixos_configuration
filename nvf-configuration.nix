@@ -31,7 +31,7 @@
 
       # Formatting (Conform)
       {
-        key = "<leader>cf";
+        key = "<space>ff";
         mode = ["n"];
         action = ":lua require('conform').format({ async = true, lsp_fallback = true })<CR>";
         silent = true;
