@@ -156,6 +156,20 @@
         silent = true;
         desc = "Diagnostics to loclist";
       }
+      {
+        key = "<leader>we";
+        mode = ["n"];
+        action = ":WindowsEqualize<CR>";
+        silent = true;
+        desc = "Equalize windows";
+      }
+      {
+        key = "<leader>wm";
+        mode = ["n"];
+        action = ":WindowsMaximize<CR>";
+        silent = true;
+        desc = "Maximises current window";
+      }
     ];
 
     git.enable = true;
@@ -287,7 +301,7 @@
         };
       };
     };
-    ui.borders.plugins.nvim-cmp.enable = true;
+    ui.borders.plugins.nvim-cmp.enable = true; # nvim cmp borders
 
     comments.comment-nvim.enable = true;
     autopairs.nvim-autopairs.enable = true;
@@ -307,11 +321,13 @@
       lua.enable = true;
       python.enable = true;
       ts.enable = true; # Provides TypeScript/TSX; adjust if module separates ts/tsx
+      markdown.extensions.render-markdown-nvim.enable = true;
     };
   };
 
   vim.extraPlugins = {
-    windows = { # for windows animation and better split handling
+    windows = {
+      # for windows animation and better split handling
       package = pkgs.vimPlugins.windows-nvim;
       setup = ''
         vim.o.winwidth = 10
@@ -321,12 +337,20 @@
       '';
     };
 
-    lensline-nvim = { # for git commit history in statusline
+    lensline-nvim = {
+      # for git commit history in statusline
       package = pkgs.vimPlugins.lensline-nvim;
       setup = ''
         require("lensline").setup()
       '';
     };
 
+    smear-cursor-nvim = {
+      # for git commit history in statusline
+      package = pkgs.vimPlugins.smear-cursor-nvim;
+      setup = ''
+        require('smear_cursor').enabled = true
+      '';
+    };
   };
 }
