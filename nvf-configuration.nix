@@ -1,5 +1,9 @@
-{ pkgs, lib, config, ... }:
 {
+  pkgs,
+  lib,
+  config,
+  ...
+}: {
   vim = {
     package = pkgs.neovim-unwrapped;
 
@@ -168,17 +172,17 @@
       expandtab = true;
       cursorline = true;
       relativenumber = true;
-      number = true;          # Absolute number on current line
-      signcolumn = "yes";     # Avoid text shifting
-      termguicolors = true;   # True color
-      updatetime = 300;       # Faster CursorHold
-      scrolloff = 4;          # Context lines around cursor
-      splitbelow = true;      # New horizontal splits below
-      splitright = true;      # New vertical splits to the right
-      timeoutlen = 400;       # Faster mapped sequence timeout
+      number = true; # Absolute number on current line
+      signcolumn = "yes"; # Avoid text shifting
+      termguicolors = true; # True color
+      updatetime = 300; # Faster CursorHold
+      scrolloff = 4; # Context lines around cursor
+      splitbelow = true; # New horizontal splits below
+      splitright = true; # New vertical splits to the right
+      timeoutlen = 400; # Faster mapped sequence timeout
       clipboard = "unnamedplus"; # System clipboard integration
-      ignorecase = true;      # Case-insensitive search
-      smartcase = true;       # Override ignorecase if uppercase in search
+      ignorecase = true; # Case-insensitive search
+      smartcase = true; # Override ignorecase if uppercase in search
     };
 
     theme = {
@@ -197,7 +201,7 @@
       extensions = [
         {
           name = "fzf";
-          packages = [ pkgs.vimPlugins.telescope-fzf-native-nvim ];
+          packages = [pkgs.vimPlugins.telescope-fzf-native-nvim];
           setup = {
             fzf = {
               fuzzy = true;
@@ -210,8 +214,8 @@
       mappings = {
         findFiles = "<leader>ff";
         buffers = "<leader>fb";
-        gitBranches = "<leader>gb";  # Adjusted for consistency
-        gitCommits = "<leader>gc";   # Adjusted for consistency
+        gitBranches = "<leader>gb"; # Adjusted for consistency
+        gitCommits = "<leader>gc"; # Adjusted for consistency
         liveGrep = "<leader>fg";
       };
     };
@@ -267,15 +271,23 @@
 
     # Autocompletion & snippets
     autocomplete = {
-      blink-cmp = {
+      # blink-cmp = {
+      #   enable = true;
+      #   friendly-snippets.enable = true;
+      #   mappings = {
+      #     next = "<c-n>";
+      #     previous = "<c-p>";
+      #   };
+      # };
+      nvim-cmp = {
         enable = true;
-        friendly-snippets.enable = true;
         mappings = {
           next = "<c-n>";
           previous = "<c-p>";
         };
       };
     };
+    ui.borders.plugins.nvim-cmp.enable = true;
 
     comments.comment-nvim.enable = true;
     autopairs.nvim-autopairs.enable = true;
@@ -283,7 +295,8 @@
     assistant = {
       copilot = {
         enable = true;
-        cmp.enable = true; # Ensure compatibility layer present; else switch strategy
+        cmp.enable = true;
+        setupOpts.suggestion.enabled = false;
       };
       avante-nvim.enable = true;
     };
@@ -295,5 +308,25 @@
       python.enable = true;
       ts.enable = true; # Provides TypeScript/TSX; adjust if module separates ts/tsx
     };
+  };
+
+  vim.extraPlugins = {
+    windows = { # for windows animation and better split handling
+      package = pkgs.vimPlugins.windows-nvim;
+      setup = ''
+        vim.o.winwidth = 10
+        vim.o.winminwidth = 10
+        vim.o.equalalways = false
+        require('windows').setup()
+      '';
+    };
+
+    lensline-nvim = { # for git commit history in statusline
+      package = pkgs.vimPlugins.lensline-nvim;
+      setup = ''
+        require("lensline").setup()
+      '';
+    };
+
   };
 }
