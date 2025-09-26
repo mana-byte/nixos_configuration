@@ -133,6 +133,13 @@
         silent = true;
         desc = "Signature Help";
       }
+      {
+        key = "<C-t>";
+        mode = ["n"];
+        action = ":Trouble<CR>";
+        silent = true;
+        desc = "Open Trouble";
+      }
 
       # Diagnostics navigation
       {
@@ -174,6 +181,7 @@
 
     git.enable = true;
     lsp.enable = true;
+    lazy.enable = true;
 
     globals = {
       mapleader = ","; # Retain comma as leader (consistent across keymaps)
@@ -190,7 +198,7 @@
       signcolumn = "yes"; # Avoid text shifting
       termguicolors = true; # True color
       updatetime = 300; # Faster CursorHold
-      scrolloff = 4; # Context lines around cursor
+      scrolloff = 3; # Context lines around cursor
       splitbelow = true; # New horizontal splits below
       splitright = true; # New vertical splits to the right
       timeoutlen = 400; # Faster mapped sequence timeout
@@ -224,15 +232,15 @@
           };
         }
       ];
-      # Keep core mappings; supplementary ones handled via keymaps above
       mappings = {
         findFiles = "<leader>ff";
         buffers = "<leader>fb";
-        gitBranches = "<leader>gb"; # Adjusted for consistency
-        gitCommits = "<leader>gc"; # Adjusted for consistency
+        gitBranches = "<leader>gb";
+        gitCommits = "<leader>gc";
         liveGrep = "<leader>fg";
       };
     };
+    filetree.nvimTree.enable = true;
 
     utility = {
       oil-nvim.enable = true;
@@ -258,6 +266,8 @@
         command_palette = true;
       };
     };
+    ui.colorizer.enable = true;
+    notify.nvim-notify.enable = true;
 
     visuals = {
       nvim-web-devicons.enable = true;
@@ -303,6 +313,7 @@
     };
     ui.borders.plugins.nvim-cmp.enable = true; # nvim cmp borders
 
+    lsp.trouble.enable = true;
     comments.comment-nvim.enable = true;
     autopairs.nvim-autopairs.enable = true;
 
@@ -352,5 +363,16 @@
         require('smear_cursor').enabled = true
       '';
     };
+
+    tiny-inline-diagnostic = {
+      package = pkgs.vimPlugins.tiny-inline-diagnostic-nvim;
+      setup = ''
+        require('tiny-inline-diagnostic').setup({
+          preset = "classic",
+        })
+        vim.diagnostic.config({ virtual_text = false }) -- Disable default virtual text
+      '';
+    };
   };
+
 }
