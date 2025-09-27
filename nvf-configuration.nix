@@ -267,7 +267,7 @@
       };
     };
     ui.colorizer.enable = true;
-    notify.nvim-notify.enable = true;
+    notify.nvim-notify.enable = true; # for noice notifications
 
     visuals = {
       nvim-web-devicons.enable = true;
