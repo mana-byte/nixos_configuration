@@ -13,15 +13,13 @@ Prerequisites:
 - Nix with flakes enabled (set `nix.settings.experimental-features = ["nix-command" "flakes"];`).
 - Linux x86_64.
 
-Build the configured Neovim and run it locally (without installing):
-- Build: `nix build .#default`
-- Run: `./result/bin/nvim`
+To use the nvf configuration:
+- `nix run github:mana-byte/nixos_configuration`
 
-Or run directly with flake:
-- `nix run .#default`
 
-Install the package into your user profile:
-- `nix profile install .#default`
+Or use git clone and do:
+- `nix run .`
+
 
 Using the NixOS configuration (optional):
 - `sudo nixos-rebuild switch --flake .#nixos`
