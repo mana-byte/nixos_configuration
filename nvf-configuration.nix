@@ -244,6 +244,11 @@
 
     utility = {
       oil-nvim.enable = true;
+      oil-nvim.setupOpts = {
+        view_options = {
+          show_hidden = true;
+        };
+      };
       undotree.enable = true;
       motion.leap = {
         enable = true;
@@ -374,5 +379,4 @@
       '';
     };
   };
-
 }
