@@ -198,14 +198,14 @@
       signcolumn = "yes"; # Avoid text shifting
       termguicolors = true; # True color
       updatetime = 300; # Faster CursorHold
-      scrolloff = 3; # Context lines around cursor
+      scrolloff = 1; # Context lines around cursor
       splitbelow = true; # New horizontal splits below
       splitright = true; # New vertical splits to the right
       timeoutlen = 400; # Faster mapped sequence timeout
-      clipboard = "unnamedplus"; # System clipboard integration
       ignorecase = true; # Case-insensitive search
       smartcase = true; # Override ignorecase if uppercase in search
     };
+    clipboard.enable = true; # System clipboard integration
 
     theme = {
       enable = true;
