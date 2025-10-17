@@ -17,19 +17,23 @@
   # BLACKLIST NVIDIA TO POWEROFF GPU
   specialisation.disablegpu.configuration = {
     boot.blacklistedKernelModules = [
-	    "nvidia"
-	    "nvidia_drm"
-	    "nvidia_modeset"
-	    "nvidia_uvm"
-	    "nouveau"
-	    # These are a bug fix for linux kernel 6.12.29 that keeps making my computer freeze // Remove when 6.12.30
-	    # "typec_ucsi"
-	    # "ucsi_acpi"
+      "nvidia"
+      "nvidia_drm"
+      "nvidia_modeset"
+      "nvidia_uvm"
+      "nouveau"
+      # These are a bug fix for linux kernel 6.12.29 that keeps making my computer freeze // Remove when 6.12.30
+      "typec_ucsi"
+      "ucsi_acpi"
     ];
-    boot.extraModulePackages = with config.boot.kernelPackages; [ acpi_call ];
-    
   };
   # BLACKLIST NVIDIA TO POWEROFF GPU
+  boot.blacklistedKernelModules = [
+    # These are a bug fix for linux kernel 6.12.29 that keeps making my computer freeze // Remove when 6.12.30
+    "typec_ucsi"
+    "ucsi_acpi"
+  ];
+  boot.extraModulePackages = with config.boot.kernelPackages; [acpi_call];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -38,11 +42,11 @@
   # kernel version
   boot.kernelPackages = pkgs.linuxPackages_6_12;
 
-  boot.kernelParams = [ 
-    "amd_pstate=active"      # Better power management
-    "amdgpu.sg_display=0"    # Address graphics stability
-    "amdgpu.runpm=0"         # Disable run-time power management
-    "acpi_osi=Linux"         # ACPI compatibility
+  boot.kernelParams = [
+    "amd_pstate=active" # Better power management
+    "amdgpu.sg_display=0" # Address graphics stability
+    "amdgpu.runpm=0" # Disable run-time power management
+    "acpi_osi=Linux" # ACPI compatibility
     "acpi_enforce_resources=lax"
   ];
   networking.hostName = "nixos"; # Define your hostname.
@@ -61,6 +65,7 @@
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_NZ.UTF-8";
+  i18n.extraLocales = ["fr_FR.UTF-8/UTF-8"];
 
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_NZ.UTF-8";
@@ -80,19 +85,18 @@
     variant = "azerty";
   };
 
- # unstable 
+  # unstable
   services.logind.settings.Login = {
-     HandleLidSwitchDocked = "ignore";
-     HandleLidSwitch = "lock";
-     # settings.Login = "IdleAction=ignore";
+    HandleLidSwitchDocked = "ignore";
+    HandleLidSwitch = "lock";
+    # settings.Login = "IdleAction=ignore";
   };
 
-	#  services.logind = {
-	#  	lidSwitchDocked = "ignore";
-	# lidSwitch = "lock";
-	# extraConfig = "IdleAction=ignore";
-	#  };
-
+  #  services.logind = {
+  #  	lidSwitchDocked = "ignore";
+  # lidSwitch = "lock";
+  # extraConfig = "IdleAction=ignore";
+  #  };
 
   # Configure console keymap
   console.keyMap = "fr";
@@ -111,7 +115,6 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-
     # linux firmware
     linux-firmware
     # home manager
@@ -151,11 +154,14 @@
     gparted
   ];
 
+  services.postgresql.enable = true;
+  virtualisation.docker.enable = true;
+
   # gdm display manager
   # services.xserver.displayManager.gdm.enable = true;
   # ly display manager
   services.xserver.enable = true;
-services.displayManager.ly = {
+  services.displayManager.ly = {
     enable = true;
     package = pkgs.ly; # TUI -- zig -- https://codeberg.org/AnErrupTion/ly
     # x11Support = true;
@@ -209,10 +215,9 @@ services.displayManager.ly = {
   services.blueman.enable = true;
 
   programs.kdeconnect = {
-     enable = true;
-     package = pkgs.kdePackages.kdeconnect-kde;
+    enable = true;
+    package = pkgs.kdePackages.kdeconnect-kde;
   };
-
 
   # pipewire for sound
   # rtkit is optional but recommended
@@ -252,21 +257,20 @@ services.displayManager.ly = {
 
   # Make sure asusd starts after basic system services
   systemd.services.asusd = {
-    after = [ "multi-user.target" ];
-    wantedBy = [ "multi-user.target" ];
+    after = ["multi-user.target"];
+    wantedBy = ["multi-user.target"];
   };
 
   # Ensure the service is properly enabled
   systemd.services.asusd.enable = true;
-  # for deactivating the gpu when not needed 
+  # for deactivating the gpu when not needed
   # There is an option at the top in kernel params to set initial mode of gpu
-  services.supergfxd.enable = false;
+  # services.supergfxd.enable = true;
 
   environment.sessionVariables = {
     WLR_NO_HARDWARE_CURSOR = "1";
     NIXOS_OZONE_WL = "1";
   };
-
 
   hardware.enableRedistributableFirmware = true;
   hardware.enableAllFirmware = true;
@@ -301,26 +305,26 @@ services.displayManager.ly = {
     };
     nvidiaSettings = true;
     powerManagement.enable = true;
-    powerManagement.finegrained = true;
+    # powerManagement.finegrained = true;
   };
 
   # DISABLE AND ENABLE TAILSCALE
-    # services.tailscale = {
-    #   enable = true;
-    #   useRoutingFeatures = "both"; # Enables subnet routing and exit nodes if needed
-    # };
+  # services.tailscale = {
+  #   enable = true;
+  #   useRoutingFeatures = "both"; # Enables subnet routing and exit nodes if needed
+  # };
   # KDE CONNECT PERMISSIONS
   services.avahi = {
-     enable = true;
-     nssmdns4 = true;
-     openFirewall = true;
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
   };
 
-  # nix.gc = {
-  #   automatic = true;
-  #   dates = "monthly"; # runs on the 1st of every month by default
-  #   options = "--delete-older-than 30d";
-  # };
+  nix.gc = {
+    automatic = true;
+    dates = "monthly"; # runs on the 1st of every month by default
+    options = "--delete-older-than 30d";
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
