@@ -209,13 +209,13 @@
 
     theme = {
       enable = true;
-      name = "gruvbox";
-      style = "dark";
+      name = "catppuccin";
+      style = "mocha";
     };
 
     statusline.lualine = {
       enable = true;
-      theme = "gruvbox";
+      theme = "catppuccin";
     };
 
     telescope = {

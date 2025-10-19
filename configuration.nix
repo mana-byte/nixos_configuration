@@ -117,8 +117,6 @@
   environment.systemPackages = with pkgs; [
     # linux firmware
     linux-firmware
-    # home manager
-    home-manager
     # cachix to avoid compiling everything
     cachix
     # list of open files
@@ -236,6 +234,7 @@
   fonts.packages = with pkgs; [
     font-awesome
     nerd-fonts.jetbrains-mono
+    nerd-fonts.departure-mono
   ];
   # tlp for battery management
   services.tlp = {
