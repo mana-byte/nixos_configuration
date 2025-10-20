@@ -184,6 +184,13 @@
         silent = true;
         desc = "Toggle Markdown view";
       }
+      {
+        key = "<leader>gg";
+        mode = ["n"];
+        action = ":Git<CR>";
+        silent = true;
+        desc = "Open Git interface";
+      }
     ];
 
     git.enable = true;
