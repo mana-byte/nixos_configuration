@@ -177,6 +177,13 @@
         silent = true;
         desc = "Maximises current window";
       }
+      {
+        key = "<leader>mv";
+        mode = ["n"];
+        action = ":Markview<CR>";
+        silent = true;
+        desc = "Toggle Markdown view";
+      }
     ];
 
     git.enable = true;
@@ -259,6 +266,10 @@
         };
       };
       surround.enable = true;
+      ccc =  {
+        enable = true;
+        mappings.quit = "q";
+      };
     };
 
     binds.whichKey.enable = true;
@@ -271,7 +282,6 @@
         command_palette = true;
       };
     };
-    ui.colorizer.enable = true;
     notify.nvim-notify.enable = true; # for noice notifications
 
     visuals = {
@@ -337,7 +347,11 @@
       lua.enable = true;
       python.enable = true;
       ts.enable = true; # Provides TypeScript/TSX; adjust if module separates ts/tsx
-      markdown.extensions.render-markdown-nvim.enable = true;
+      markdown = {
+        enable = true;
+        extensions.markview-nvim.enable = true;
+        format.enable = true;
+      };
     };
   };
 

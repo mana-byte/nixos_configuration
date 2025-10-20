@@ -150,6 +150,9 @@
 
     # disk management
     gparted
+
+    # mixer
+    pamixer
   ];
 
   services.postgresql.enable = true;
@@ -175,7 +178,8 @@
       box_title = "null"; # text above the box
       clear_password = true;
       clock = "%B, %A %d @ %H:%M:%S";
-      colormix_col1 = "0x08090A08";
+      colormix_col1 = "0x08090A08"; 
+      # colormix_col1 = "#48c783"; 
       colormix_col2 = "0x08FFFFFF";
       colormix_col3 = "0x0800CC00";
       default_input = "password";
@@ -275,6 +279,10 @@
   hardware.enableAllFirmware = true;
 
   programs.hyprland.enable = true;
+  programs.noisetorch = {
+    enable = true;
+    package = pkgs.noisetorch;
+  };
   # programs.hyprland.withUWSM  = true;
   # Configure OpenGL properly
   hardware.graphics = {
