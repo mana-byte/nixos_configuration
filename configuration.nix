@@ -160,7 +160,7 @@
 
   # gdm display manager
   # services.xserver.displayManager.gdm.enable = true;
-  # ly display manager
+  # ly display manager => WARNING: UNSTABLE BRANCH ONLY
   services.xserver.enable = true;
   services.displayManager.ly = {
     enable = true;
@@ -248,6 +248,11 @@
       CPU_SCALING_GOVERNOR_ON_AC = "performance";
       # Battery settings
       CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+
+      # Battery settings
+      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+      # AC settings
+      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
     };
   };
 
@@ -294,7 +299,7 @@
   };
 
   # Basic display setup
-  services.xserver.videoDrivers = ["amdgpu" "nvidia"]; # add nvidia
+  services.xserver.videoDrivers = ["nvidia"]; # add nvidia
   boot.initrd.kernelModules = ["amdgpu"];
 
   # Configure NVIDIA with safe options
@@ -312,7 +317,7 @@
     };
     nvidiaSettings = true;
     powerManagement.enable = true;
-    # powerManagement.finegrained = true;
+    powerManagement.finegrained = true;
   };
 
   # DISABLE AND ENABLE TAILSCALE
