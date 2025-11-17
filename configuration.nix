@@ -28,11 +28,11 @@
     ];
   };
   # BLACKLIST NVIDIA TO POWEROFF GPU
-  boot.blacklistedKernelModules = [
-    # These are a bug fix for linux kernel 6.12.29 that keeps making my computer freeze // Remove when 6.12.30
-    "typec_ucsi"
-    "ucsi_acpi"
-  ];
+  # boot.blacklistedKernelModules = [
+  #   # These are a bug fix for linux kernel 6.12.29 that keeps making my computer freeze // Remove when 6.12.30
+  #   "typec_ucsi"
+  #   "ucsi_acpi"
+  # ];
   boot.extraModulePackages = with config.boot.kernelPackages; [acpi_call];
 
   # Bootloader.
@@ -66,7 +66,6 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_NZ.UTF-8";
   i18n.extraLocales = ["fr_FR.UTF-8/UTF-8"];
-
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_NZ.UTF-8";
     LC_IDENTIFICATION = "en_NZ.UTF-8";
@@ -105,7 +104,7 @@
   users.users.mana = {
     isNormalUser = true;
     description = "Mana";
-    extraGroups = ["networkmanager" "wheel"];
+    extraGroups = ["networkmanager" "wheel" "docker"];
     packages = with pkgs; [];
   };
 
@@ -139,15 +138,6 @@
     # terminal emulator
     kitty
 
-    # hyprland ecosystem config in home manager
-    hyprpolkitagent
-    hyprshot
-    hyprlock
-    hypridle
-    hyprcursor
-    hyprsunset
-    waybar
-
     # disk management
     gparted
 
@@ -155,56 +145,59 @@
     pamixer
   ];
 
-  services.postgresql.enable = true;
+  # Dev tools
+  # services.postgresql.enable = true;
   virtualisation.docker.enable = true;
 
+  #Hyprland enable for gdm
+  programs.hyprland.enable = true;
   # gdm display manager
-  # services.xserver.displayManager.gdm.enable = true;
-  # ly display manager => WARNING: UNSTABLE BRANCH ONLY
   services.xserver.enable = true;
-  services.displayManager.ly = {
-    enable = true;
-    package = pkgs.ly; # TUI -- zig -- https://codeberg.org/AnErrupTion/ly
-    # x11Support = true;
-    settings = {
-      # allow_empty_password = false; # dangerous?
-      animation = "colormix"; # "doom", "matrix", "colormix"
-      animation_timeout_sec = 600; # 10 minutes
-      auth_fails = 3; # special animation looks broken?
-      bg = "0x02000000";
-      bigclock = "en"; # enlarges the clock -- may not work with some fonts?
-      # blank_box = false; # transparent
-      border_fg = "0x01FFFFFF";
-      box_title = "null"; # text above the box
-      clear_password = true;
-      clock = "%B, %A %d @ %H:%M:%S";
-      colormix_col1 = "0x08090A08"; 
-      # colormix_col1 = "#48c783"; 
-      colormix_col2 = "0x08FFFFFF";
-      colormix_col3 = "0x0800CC00";
-      default_input = "password";
-      error_bg = "0x02000000";
-      error_fg = "0x01FF0000";
-      fg = "0x01FFFFFF";
-      hide_borders = false;
-      hide_version_string = true; # doesnt work?
-      hide_key_hints = false;
-      initial_info_text = "null"; # hostname
-      # input_len = 69;
-      lang = "en";
-      load = true;
-      margin_box_h = 5;
-      margin_box_v = 5;
-      min_refresh_delta = 1000; # milliseconds -- default=5
-      # numlock = true;
-      save = true;
-      text_in_center = false; # ugly
-      # tty = 4; # broken? -- could help with UWSM sessions
-      vi_default_mode = "insert";
-      vi_mode = true;
-      # ...
-    };
-  };
+  services.xserver.displayManager.gdm.enable = true;
+  # ly display manager => WARNING: UNSTABLE BRANCH ONLY
+  # services.displayManager.ly = {
+  #   enable = true;
+  #   package = pkgs.ly; # TUI -- zig -- https://codeberg.org/AnErrupTion/ly
+  #   # x11Support = true;
+  #   settings = {
+  #     # allow_empty_password = false; # dangerous?
+  #     animation = "colormix"; # "doom", "matrix", "colormix"
+  #     animation_timeout_sec = 600; # 10 minutes
+  #     auth_fails = 3; # special animation looks broken?
+  #     bg = "0x02000000";
+  #     bigclock = "en"; # enlarges the clock -- may not work with some fonts?
+  #     # blank_box = false; # transparent
+  #     border_fg = "0x01FFFFFF";
+  #     box_title = "null"; # text above the box
+  #     clear_password = true;
+  #     clock = "%B, %A %d @ %H:%M:%S";
+  #     colormix_col1 = "0x08090A08";
+  #     # colormix_col1 = "#48c783";
+  #     colormix_col2 = "0x08FFFFFF";
+  #     colormix_col3 = "0x0800CC00";
+  #     default_input = "password";
+  #     error_bg = "0x02000000";
+  #     error_fg = "0x01FF0000";
+  #     fg = "0x01FFFFFF";
+  #     hide_borders = false;
+  #     hide_version_string = true; # doesnt work?
+  #     hide_key_hints = false;
+  #     initial_info_text = "null"; # hostname
+  #     # input_len = 69;
+  #     lang = "en";
+  #     load = true;
+  #     margin_box_h = 5;
+  #     margin_box_v = 5;
+  #     min_refresh_delta = 1000; # milliseconds -- default=5
+  #     # numlock = true;
+  #     save = true;
+  #     text_in_center = false; # ugly
+  #     # tty = 4; # broken? -- could help with UWSM sessions
+  #     vi_default_mode = "insert";
+  #     vi_mode = true;
+  #     # ...
+  #   };
+  # };
   # usb auto mounting
   services.gvfs.enable = true;
   services.udisks2.enable = true;
@@ -219,6 +212,11 @@
   programs.kdeconnect = {
     enable = true;
     package = pkgs.kdePackages.kdeconnect-kde;
+  };
+  programs.localsend = {
+    enable = true;
+    package = pkgs.localsend;
+    openFirewall = true;
   };
 
   # pipewire for sound
@@ -273,7 +271,7 @@
   systemd.services.asusd.enable = true;
   # for deactivating the gpu when not needed
   # There is an option at the top in kernel params to set initial mode of gpu
-  # services.supergfxd.enable = true;
+  services.supergfxd.enable = true;
 
   environment.sessionVariables = {
     WLR_NO_HARDWARE_CURSOR = "1";
@@ -283,12 +281,11 @@
   hardware.enableRedistributableFirmware = true;
   hardware.enableAllFirmware = true;
 
-  programs.hyprland.enable = true;
   programs.noisetorch = {
+    # NoiseTorch for microphone noise suppression
     enable = true;
     package = pkgs.noisetorch;
   };
-  # programs.hyprland.withUWSM  = true;
   # Configure OpenGL properly
   hardware.graphics = {
     enable = true;
@@ -299,14 +296,15 @@
   };
 
   # Basic display setup
-  services.xserver.videoDrivers = ["nvidia"]; # add nvidia
+  services.xserver.videoDrivers = ["nvidia" "amdgpu"]; # add nvidia
   boot.initrd.kernelModules = ["amdgpu"];
 
   # Configure NVIDIA with safe options
   hardware.nvidia = {
     modesetting.enable = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
-    open = false;
+    open = true;
+    dynamicBoost.enable = true;
     prime = {
       offload = {
         enable = true;
