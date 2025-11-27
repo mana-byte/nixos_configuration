@@ -14,25 +14,12 @@
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
-  # BLACKLIST NVIDIA TO POWEROFF GPU
-  specialisation.disablegpu.configuration = {
-    boot.blacklistedKernelModules = [
-      "nvidia"
-      "nvidia_drm"
-      "nvidia_modeset"
-      "nvidia_uvm"
-      "nouveau"
-      # These are a bug fix for linux kernel 6.12.29 that keeps making my computer freeze // Remove when 6.12.30
-      "typec_ucsi"
-      "ucsi_acpi"
-    ];
-  };
-  # BLACKLIST NVIDIA TO POWEROFF GPU
   # boot.blacklistedKernelModules = [
   #   # These are a bug fix for linux kernel 6.12.29 that keeps making my computer freeze // Remove when 6.12.30
   #   "typec_ucsi"
   #   "ucsi_acpi"
   # ];
+
   boot.extraModulePackages = with config.boot.kernelPackages; [acpi_call];
 
   # Bootloader.
@@ -281,11 +268,6 @@
   hardware.enableRedistributableFirmware = true;
   hardware.enableAllFirmware = true;
 
-  programs.noisetorch = {
-    # NoiseTorch for microphone noise suppression
-    enable = true;
-    package = pkgs.noisetorch;
-  };
   # Configure OpenGL properly
   hardware.graphics = {
     enable = true;
