@@ -74,15 +74,10 @@
   # unstable
   services.logind.settings.Login = {
     HandleLidSwitchDocked = "ignore";
-    HandleLidSwitch = "lock";
+    HandleLidSwitch = "poweroff";
+    HandleLidSwitchExternalPower = "lock";
     # settings.Login = "IdleAction=ignore";
   };
-
-  #  services.logind = {
-  #  	lidSwitchDocked = "ignore";
-  # lidSwitch = "lock";
-  # extraConfig = "IdleAction=ignore";
-  #  };
 
   # Configure console keymap
   console.keyMap = "fr";
@@ -91,7 +86,7 @@
   users.users.mana = {
     isNormalUser = true;
     description = "Mana";
-    extraGroups = ["networkmanager" "wheel" "docker"];
+    extraGroups = ["networkmanager" "wheel" "docker" ];
     packages = with pkgs; [];
   };
 
@@ -130,14 +125,27 @@
 
     # mixer
     pamixer
+
+    #devtools
+    minikube
+
   ];
 
   # Dev tools
-  # services.postgresql.enable = true;
+
   virtualisation.docker.enable = true;
+  services.k3s = {
+    enable = true;
+  };
+
+  # Dev tools end
 
   #Hyprland enable for gdm
-  programs.hyprland.enable = true;
+  programs.hyprland = {
+    enable = true;
+    withUWSM = true;
+    xwayland.enable = true;
+  };
   # gdm display manager
   services.xserver.enable = true;
   services.xserver.displayManager.gdm.enable = true;
