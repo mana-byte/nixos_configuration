@@ -27,7 +27,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # kernel version
-  boot.kernelPackages = pkgs.linuxPackages_6_12;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   boot.kernelParams = [
     "amd_pstate=active" # Better power management
@@ -131,12 +131,11 @@
 
   ];
 
-  # Dev tools
 
   virtualisation.docker.enable = true;
-  services.k3s = {
-    enable = true;
-  };
+  # services.k3s = {
+  #   enable = true;
+  # };
 
   # Dev tools end
 
@@ -149,55 +148,16 @@
   # gdm display manager
   services.xserver.enable = true;
   services.xserver.displayManager.gdm.enable = true;
-  # ly display manager => WARNING: UNSTABLE BRANCH ONLY
-  # services.displayManager.ly = {
-  #   enable = true;
-  #   package = pkgs.ly; # TUI -- zig -- https://codeberg.org/AnErrupTion/ly
-  #   # x11Support = true;
-  #   settings = {
-  #     # allow_empty_password = false; # dangerous?
-  #     animation = "colormix"; # "doom", "matrix", "colormix"
-  #     animation_timeout_sec = 600; # 10 minutes
-  #     auth_fails = 3; # special animation looks broken?
-  #     bg = "0x02000000";
-  #     bigclock = "en"; # enlarges the clock -- may not work with some fonts?
-  #     # blank_box = false; # transparent
-  #     border_fg = "0x01FFFFFF";
-  #     box_title = "null"; # text above the box
-  #     clear_password = true;
-  #     clock = "%B, %A %d @ %H:%M:%S";
-  #     colormix_col1 = "0x08090A08";
-  #     # colormix_col1 = "#48c783";
-  #     colormix_col2 = "0x08FFFFFF";
-  #     colormix_col3 = "0x0800CC00";
-  #     default_input = "password";
-  #     error_bg = "0x02000000";
-  #     error_fg = "0x01FF0000";
-  #     fg = "0x01FFFFFF";
-  #     hide_borders = false;
-  #     hide_version_string = true; # doesnt work?
-  #     hide_key_hints = false;
-  #     initial_info_text = "null"; # hostname
-  #     # input_len = 69;
-  #     lang = "en";
-  #     load = true;
-  #     margin_box_h = 5;
-  #     margin_box_v = 5;
-  #     min_refresh_delta = 1000; # milliseconds -- default=5
-  #     # numlock = true;
-  #     save = true;
-  #     text_in_center = false; # ugly
-  #     # tty = 4; # broken? -- could help with UWSM sessions
-  #     vi_default_mode = "insert";
-  #     vi_mode = true;
-  #     # ...
-  #   };
-  # };
   # usb auto mounting
   services.gvfs.enable = true;
   services.udisks2.enable = true;
   services.dbus.enable = true;
   security.polkit.enable = true;
+
+  #nh from notashelf
+  programs.nh = {
+    enable = true;
+  };
 
   # bluetooth
   hardware.bluetooth.enable = true; # enables support for Bluetooth
